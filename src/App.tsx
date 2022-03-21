@@ -1,4 +1,10 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import 'react-native-reanimated';
+import { StartButton } from './StartScreen';
 
-export const App = () => <Text>APP</Text>;
+export const App = () => (
+  <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <StartButton buttonText="START" />
+  </SafeAreaView>
+);
