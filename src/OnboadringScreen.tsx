@@ -14,6 +14,7 @@ import {
   ImageSourcePropType,
   Platform,
   UIManager,
+  LayoutAnimation,
 } from 'react-native';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -69,6 +70,7 @@ export const OnboadringScreen = () => {
   const ref = useRef<FlatList>(null);
 
   const scrollHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const contentOffsetX = event.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffsetX / width);
 
@@ -76,6 +78,7 @@ export const OnboadringScreen = () => {
   };
 
   const goNextSlide = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const nextSlideIndex = currentSlideIndex + 1;
     const offset = nextSlideIndex * width;
 
@@ -83,6 +86,7 @@ export const OnboadringScreen = () => {
   };
 
   const skipOnboarding = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const lastSlideIndex = slides.length - 1;
     const offset = lastSlideIndex * width;
 
