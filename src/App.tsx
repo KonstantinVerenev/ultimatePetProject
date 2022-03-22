@@ -1,4 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
 
-export const App = () => <Text>APP</Text>;
+import { OnboadringScreen } from './OnboadringScreen';
+
+export const App = () => <OnboadringScreen />;
