@@ -16,6 +16,7 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -66,6 +67,7 @@ const OnboardingSlide: ListRenderItem<SlideItemData> = ({ item: { image, title, 
 };
 
 export const OnboadringScreen = () => {
+  const navigation = useNavigation();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef<FlatList>(null);
 
@@ -94,8 +96,7 @@ export const OnboadringScreen = () => {
   };
 
   const onPressFinish = () => {
-    // navigate replace
-    console.log('FINISH');
+    navigation.dispatch(StackActions.replace('StartScreen'));
   };
 
   return (
@@ -112,7 +113,6 @@ export const OnboadringScreen = () => {
         renderItem={OnboardingSlide}
       />
 
-      {/* + layoutAnimation s*/}
       <View style={styles.indicatorsWrapper}>
         {slides.map((item, index) => (
           <View

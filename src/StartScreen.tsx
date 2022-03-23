@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { AnimatePresence, MotiView } from 'moti';
 
-export const StartButton: React.FC<{ buttonText: string }> = ({ buttonText }) => {
+export const StartScreen: React.FC<{ buttonText: string }> = ({ buttonText }) => {
   const [visible, setVisible] = useState(true);
 
   return (
