@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   SafeAreaView,
@@ -16,13 +16,15 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import { StackActions, useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+
+import { COLORS } from './constants/colors';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackParams } from './App';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-
-import { COLORS } from './constants/colors';
 
 const { width } = Dimensions.get('window');
 
@@ -67,9 +69,15 @@ const OnboardingSlide: ListRenderItem<SlideItemData> = ({ item: { image, title, 
 };
 
 export const OnboadringScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef<FlatList>(null);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    setCurrentSlideIndex(0);
+    isFocused && ref?.current?.scrollToOffset({ offset: 0 });
+  }, [isFocused]);
 
   const scrollHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -87,7 +95,7 @@ export const OnboadringScreen = () => {
     ref?.current?.scrollToOffset({ offset });
   };
 
-  const skipOnboarding = () => {
+  const onPressSkip = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const lastSlideIndex = slides.length - 1;
     const offset = lastSlideIndex * width;
@@ -96,7 +104,7 @@ export const OnboadringScreen = () => {
   };
 
   const onPressFinish = () => {
-    navigation.dispatch(StackActions.replace('StartScreen'));
+    navigation.navigate('StartScreen');
   };
 
   return (
@@ -129,7 +137,7 @@ export const OnboadringScreen = () => {
           </TouchableOpacity>
         ) : (
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <TouchableOpacity onPress={skipOnboarding} style={[styles.button, styles.darkButton]}>
+            <TouchableOpacity onPress={onPressSkip} style={[styles.button, styles.darkButton]}>
               <Text style={[styles.buttonText, { color: COLORS.white }]}>SKIP</Text>
             </TouchableOpacity>
             <View style={{ width: 20 }} />
