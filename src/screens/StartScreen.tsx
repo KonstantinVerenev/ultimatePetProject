@@ -3,7 +3,8 @@ import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import { AnimatePresence, MotiView } from 'moti';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackParams } from '../App';
+
+import { StackParams } from '../navigation';
 
 const PulseButton: React.FC<{ buttonText: string; onPress: () => void }> = ({
   buttonText,

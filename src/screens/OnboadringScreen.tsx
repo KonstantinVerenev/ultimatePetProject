@@ -17,10 +17,10 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-
-import { COLORS } from '../constants/colors';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackParams } from '../App';
+
+import { COLORS } from '../constants';
+import { StackParams } from '../navigation';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);

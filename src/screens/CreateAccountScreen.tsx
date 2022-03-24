@@ -1,18 +1,26 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { CustomButton } from '../components/CustomButton';
 
+import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
-import { COLORS } from '../constants/colors';
+import { COLORS } from '../constants';
+import { StackParams } from '../navigation';
 
 export const CreateAccountScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordRepeat, setPasswordRepeat] = useState<string>('');
 
   const onRegisterPressed = () => {
-    console.warn('Register Pressed');
+    navigation.navigate('ConfirmEmailScreen');
+  };
+
+  const onLogInPressed = () => {
+    navigation.navigate('LoginScreen');
   };
 
   const onTermsPressed = () => {
@@ -21,10 +29,6 @@ export const CreateAccountScreen = () => {
 
   const onPolicyPressed = () => {
     console.warn('Privacy Policy');
-  };
-
-  const onLogInPressed = () => {
-    console.warn('Log In');
   };
 
   return (

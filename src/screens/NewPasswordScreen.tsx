@@ -1,20 +1,24 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import { CustomButton } from '../components/CustomButton';
 
 import { CustomInput } from '../components/CustomInput';
-import { COLORS } from '../constants/colors';
+import { COLORS } from '../constants';
+import { StackParams } from '../navigation';
 
 export const NewPasswordScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const [code, setCode] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
 
   const onSubmitPressed = () => {
-    console.warn('Submit Pressed');
+    navigation.navigate('HomeScreen');
   };
 
   const onBackOnLogInPressed = () => {
-    console.warn('Back to Log In');
+    navigation.navigate('LoginScreen');
   };
 
   return (

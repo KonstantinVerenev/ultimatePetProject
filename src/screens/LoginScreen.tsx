@@ -1,20 +1,28 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native';
 import { CustomButton } from '../components/CustomButton';
 
 import { CustomInput } from '../components/CustomInput';
+import { StackParams } from '../navigation';
 
 export const LoginScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const { height } = useWindowDimensions();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const onLoginInPressed = () => {
-    console.warn('Log In');
+    navigation.navigate('HomeScreen');
   };
 
   const onForgotPasswordPressed = () => {
-    console.warn('Forgot password?');
+    navigation.navigate('ForgotPasswordScreen');
+  };
+
+  const onCreateAccountPressed = () => {
+    navigation.navigate('CreateAccountScreen');
   };
 
   return (
@@ -30,7 +38,7 @@ export const LoginScreen = () => {
       <CustomButton onPress={onLoginInPressed} text={'Log In'} />
       <CustomButton onPress={onForgotPasswordPressed} text={'Forgot password?'} type={'TERTIARY'} />
       <CustomButton
-        onPress={onForgotPasswordPressed}
+        onPress={onCreateAccountPressed}
         text={`New here? Create an account`}
         type={'SECONDARY'}
       />

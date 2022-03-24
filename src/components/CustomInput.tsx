@@ -1,6 +1,6 @@
 import React, { SetStateAction } from 'react';
 import { View, TextInput, StyleSheet, Platform } from 'react-native';
-import { COLORS } from '../constants/colors';
+import { COLORS } from '../constants';
 
 type CustomInputProps = {
   value: string;
