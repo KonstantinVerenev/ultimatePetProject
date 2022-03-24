@@ -18,9 +18,9 @@ import {
 } from 'react-native';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
-import { COLORS } from './constants/colors';
+import { COLORS } from '../constants/colors';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackParams } from './App';
+import { StackParams } from '../App';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -31,19 +31,19 @@ const { width } = Dimensions.get('window');
 const slides = [
   {
     id: '01',
-    image: require('../assets/onboarding_01.png'),
+    image: require('../../assets/onboarding_01.png'),
     title: 'Some title',
     subtitle: 'Some subtitle with additional information',
   },
   {
     id: '02',
-    image: require('../assets/onboarding_02.png'),
+    image: require('../../assets/onboarding_02.png'),
     title: 'Some title',
     subtitle: 'Some subtitle with additional information',
   },
   {
     id: '03',
-    image: require('../assets/onboarding_03.png'),
+    image: require('../../assets/onboarding_03.png'),
     title: 'Some title',
     subtitle: 'Some subtitle with additional information',
   },
@@ -87,12 +87,16 @@ export const OnboadringScreen = () => {
     setCurrentSlideIndex(currentIndex);
   };
 
-  const goNextSlide = () => {
+  const onPressNext = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const nextSlideIndex = currentSlideIndex + 1;
     const offset = nextSlideIndex * width;
 
     ref?.current?.scrollToOffset({ offset });
+
+    if (Platform.OS === 'android') {
+      setCurrentSlideIndex(nextSlideIndex);
+    }
   };
 
   const onPressSkip = () => {
@@ -101,6 +105,10 @@ export const OnboadringScreen = () => {
     const offset = lastSlideIndex * width;
 
     ref?.current?.scrollToOffset({ offset });
+
+    if (Platform.OS === 'android') {
+      setCurrentSlideIndex(lastSlideIndex);
+    }
   };
 
   const onPressFinish = () => {
@@ -141,7 +149,7 @@ export const OnboadringScreen = () => {
               <Text style={[styles.buttonText, { color: COLORS.white }]}>SKIP</Text>
             </TouchableOpacity>
             <View style={{ width: 20 }} />
-            <TouchableOpacity style={styles.button} onPress={goNextSlide}>
+            <TouchableOpacity style={styles.button} onPress={onPressNext}>
               <Text style={styles.buttonText}>NEXT</Text>
             </TouchableOpacity>
           </View>

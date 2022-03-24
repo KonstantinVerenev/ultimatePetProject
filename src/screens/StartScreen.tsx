@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import { AnimatePresence, MotiView } from 'moti';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackParams } from './App';
+import { StackParams } from '../App';
 
 const PulseButton: React.FC<{ buttonText: string; onPress: () => void }> = ({
   buttonText,
@@ -64,7 +64,7 @@ export const StartScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <PulseButton buttonText="START" onPress={() => navigation.navigate('MainScreen')} />
+      <PulseButton buttonText="START" onPress={() => navigation.navigate('LoginScreen')} />
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => {
