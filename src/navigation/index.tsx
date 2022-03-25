@@ -24,7 +24,7 @@ export type StackParams = {
 
 const Stack = createNativeStackNavigator();
 
-export const Navigation = () => {
+export const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>

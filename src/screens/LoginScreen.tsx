@@ -36,7 +36,7 @@ export const LoginScreen = () => {
       <CustomInput value={password} setValue={setPassword} placeholder="Password" secureTextEntry />
 
       <CustomButton onPress={onLoginInPressed} text={'Log In'} />
-      <CustomButton onPress={onForgotPasswordPressed} text={'Forgot password?'} type={'TERTIARY'} />
+      {/*<CustomButton onPress={onForgotPasswordPressed} text={'Forgot password?'} type={'TERTIARY'} />*/}
       <CustomButton
         onPress={onCreateAccountPressed}
         text={`New here? Create an account`}

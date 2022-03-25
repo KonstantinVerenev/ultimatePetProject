@@ -1,8 +1,14 @@
 import React from 'react';
 import 'react-native-reanimated';
+import { Provider } from 'react-redux';
 
-import { Navigation } from './navigation';
+import { AppNavigator } from './navigation';
+import { store } from './store';
 
 export const App = () => {
-  return <Navigation />;
+  return (
+    <Provider store={store}>
+      <AppNavigator />
+    </Provider>
+  );
 };
