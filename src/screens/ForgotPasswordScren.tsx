@@ -1,7 +1,8 @@
+import React, { useState } from 'react';
+import { Alert, SafeAreaView, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
@@ -10,10 +11,19 @@ import { StackParams } from '../navigation';
 
 export const ForgotPasswordScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
-  const [userName, setUserName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
-  const onSendPressed = () => {
-    navigation.navigate('NewPasswordScreen');
+  const onSendPressed = async () => {
+    const firebaseAuth = await auth();
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email);
+      Alert.alert('Check your email to reset your password');
+      navigation.navigate('LoginScreen');
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert(error.message);
+      }
+    }
   };
 
   const onBackOnLogInPressed = () => {
@@ -23,7 +33,7 @@ export const ForgotPasswordScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Reset your password</Text>
-      <CustomInput value={userName} setValue={setUserName} placeholder="Enter your username" />
+      <CustomInput value={email} setValue={setEmail} placeholder="Enter your email" />
       <CustomButton onPress={onSendPressed} text={'Send'} />
 
       <CustomButton onPress={onBackOnLogInPressed} text={`Back to Log In`} type={'TERTIARY'} />

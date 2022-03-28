@@ -15,21 +15,26 @@ export const CreateAccountScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [passwordRepeat, setPasswordRepeat] = useState<string>(''); // <-- add error handling
+  const [passwordRepeat, setPasswordRepeat] = useState<string>('');
   const dispatch = useDispatch();
 
-  const onRegisterPressed = () => {
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((UserCredential) => {
-        console.log('User successfully created & signed in!');
+  const onRegisterPressed = async () => {
+    if (password !== passwordRepeat) {
+      Alert.alert('Passwords doesnt match!');
+      return;
+    }
 
-        dispatch(setUser({ email: UserCredential.user.email, id: UserCredential.user.uid }));
-        navigation.navigate('HomeScreen');
-      })
-      .catch((error) => {
+    try {
+      const firebaseAuth = await auth();
+      const UserCredential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+
+      dispatch(setUser({ email: UserCredential.user.email, id: UserCredential.user.uid }));
+      navigation.navigate('HomeScreen');
+    } catch (error) {
+      if (error instanceof Error) {
         Alert.alert(error.message);
-      });
+      }
+    }
   };
 
   const onLogInPressed = () => {

@@ -3,7 +3,7 @@ import { Alert, Image, SafeAreaView, StyleSheet, useWindowDimensions } from 'rea
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 import { setUser } from '../store/userSlice';
 import { CustomButton } from '../components/CustomButton';
@@ -18,26 +18,30 @@ export const LoginScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged((user) => {
+    const authSubscriber = auth().onAuthStateChanged((user) => {
       if (user) {
         dispatch(setUser({ email: user.email, id: user.uid }));
         navigation.replace('HomeScreen');
       }
     });
-    return subscriber;
+
+    return authSubscriber;
   }, [dispatch, navigation]);
 
-  const onLoginInPressed = () => {
-    auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch((error) => {
+  const onLoginInPressed = async () => {
+    const firebaseAuth = await auth();
+    try {
+      await firebaseAuth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      if (error instanceof Error) {
         Alert.alert(error.message);
-      });
+      }
+    }
   };
 
-  //const onForgotPasswordPressed = () => {
-  //  navigation.navigate('ForgotPasswordScreen');
-  //};
+  const onForgotPasswordPressed = () => {
+    navigation.navigate('ForgotPasswordScreen');
+  };
 
   const onCreateAccountPressed = () => {
     navigation.navigate('CreateAccountScreen');
@@ -54,7 +58,7 @@ export const LoginScreen = () => {
       <CustomInput value={password} setValue={setPassword} placeholder="Password" secureTextEntry />
 
       <CustomButton onPress={onLoginInPressed} text={'Log In'} />
-      {/*<CustomButton onPress={onForgotPasswordPressed} text={'Forgot password?'} type={'TERTIARY'} />*/}
+      <CustomButton onPress={onForgotPasswordPressed} text={'Forgot password?'} type={'TERTIARY'} />
       <CustomButton
         onPress={onCreateAccountPressed}
         text={`New here? Create an account`}

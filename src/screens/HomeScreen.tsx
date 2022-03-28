@@ -14,13 +14,12 @@ export const HomeScreen = () => {
   const email = useSelector((state: RootState) => state.user.email);
   const dispatch = useDispatch();
 
-  const onLogoutPress = () => {
-    auth()
-      .signOut()
-      .then(() => {
-        dispatch(removeUser());
-        navigation.replace('LoginScreen');
-      });
+  const onLogoutPress = async () => {
+    const firebaseAuth = await auth();
+    await firebaseAuth.signOut();
+
+    dispatch(removeUser());
+    navigation.replace('LoginScreen');
   };
 
   return (

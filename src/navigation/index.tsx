@@ -6,9 +6,7 @@ import { OnboadringScreen } from '../screens/OnboadringScreen';
 import { StartScreen } from '../screens/StartScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { CreateAccountScreen } from '../screens/CreateAccountScreen';
-import { ConfirmEmailScreen } from '../screens/ConfirmEmailScreen';
 import { ForgotPasswordScreen } from '../screens/ForgotPasswordScren';
-import { NewPasswordScreen } from '../screens/NewPasswordScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 
 export type StackParams = {
@@ -32,9 +30,7 @@ export const AppNavigator = () => {
         <Stack.Screen name="StartScreen" component={StartScreen} />*/}
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ animation: 'fade' }} />
         <Stack.Screen name="CreateAccountScreen" component={CreateAccountScreen} />
-        {/*<Stack.Screen name="ConfirmEmailScreen" component={ConfirmEmailScreen} />*/}
         <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
-        <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
