@@ -32,7 +32,7 @@ export const AppNavigator = () => {
         <Stack.Screen name="StartScreen" component={StartScreen} />*/}
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ animation: 'fade' }} />
         <Stack.Screen name="CreateAccountScreen" component={CreateAccountScreen} />
-        <Stack.Screen name="ConfirmEmailScreen" component={ConfirmEmailScreen} />
+        {/*<Stack.Screen name="ConfirmEmailScreen" component={ConfirmEmailScreen} />*/}
         <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
         <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />

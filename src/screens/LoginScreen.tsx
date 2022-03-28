@@ -1,25 +1,43 @@
+import React, { useEffect, useState } from 'react';
+import { Alert, Image, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
-import { Image, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native';
-import { CustomButton } from '../components/CustomButton';
+import { useDispatch } from 'react-redux';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
+import { setUser } from '../store/userSlice';
+import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
 import { StackParams } from '../navigation';
 
 export const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const { height } = useWindowDimensions();
-  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged((user) => {
+      if (user) {
+        dispatch(setUser({ email: user.email, id: user.uid }));
+        navigation.replace('HomeScreen');
+      }
+    });
+    return subscriber;
+  }, [dispatch, navigation]);
 
   const onLoginInPressed = () => {
-    navigation.navigate('HomeScreen');
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => {
+        Alert.alert(error.message);
+      });
   };
 
-  const onForgotPasswordPressed = () => {
-    navigation.navigate('ForgotPasswordScreen');
-  };
+  //const onForgotPasswordPressed = () => {
+  //  navigation.navigate('ForgotPasswordScreen');
+  //};
 
   const onCreateAccountPressed = () => {
     navigation.navigate('CreateAccountScreen');
@@ -32,7 +50,7 @@ export const LoginScreen = () => {
         style={[styles.logo, { height: height * 0.25 }]}
         resizeMode={'contain'}
       />
-      <CustomInput value={username} setValue={setUsername} placeholder="Username" />
+      <CustomInput value={email} setValue={setEmail} placeholder="Email" />
       <CustomInput value={password} setValue={setPassword} placeholder="Password" secureTextEntry />
 
       <CustomButton onPress={onLoginInPressed} text={'Log In'} />

@@ -1,8 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import auth from '@react-native-firebase/auth';
 
+import { setUser } from '../store/userSlice';
 import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
 import { COLORS } from '../constants';
@@ -10,13 +13,23 @@ import { StackParams } from '../navigation';
 
 export const CreateAccountScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
-  const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [passwordRepeat, setPasswordRepeat] = useState<string>('');
+  const [passwordRepeat, setPasswordRepeat] = useState<string>(''); // <-- add error handling
+  const dispatch = useDispatch();
 
   const onRegisterPressed = () => {
-    navigation.navigate('ConfirmEmailScreen');
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((UserCredential) => {
+        console.log('User successfully created & signed in!');
+
+        dispatch(setUser({ email: UserCredential.user.email, id: UserCredential.user.uid }));
+        navigation.navigate('HomeScreen');
+      })
+      .catch((error) => {
+        Alert.alert(error.message);
+      });
   };
 
   const onLogInPressed = () => {
@@ -35,8 +48,6 @@ export const CreateAccountScreen = () => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Create Account </Text>
 
-      <CustomInput value={username} setValue={setUsername} placeholder="Username" />
-      <View style={styles.spacing} />
       <CustomInput value={email} setValue={setEmail} placeholder="Email" />
       <View style={styles.spacing} />
       <CustomInput value={password} setValue={setPassword} placeholder="Password" secureTextEntry />

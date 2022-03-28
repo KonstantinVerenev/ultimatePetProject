@@ -2,14 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type UserState = {
   email: string | null;
-  token: string | null;
-  id: string | null;
+  uid: string | null;
 };
 
 const initialState: UserState = {
   email: null,
-  token: null,
-  id: null,
+  uid: null,
 };
 
 const userSlice = createSlice({
@@ -17,16 +15,14 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      const { email, token, id } = action.payload;
+      const { email, uid } = action.payload;
 
       state.email = email;
-      state.token = token;
-      state.id = id;
+      state.uid = uid;
     },
     removeUser(state) {
       state.email = null;
-      state.token = null;
-      state.id = null;
+      state.uid = null;
     },
   },
 });
