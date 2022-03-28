@@ -29,7 +29,6 @@ export const CreateAccountScreen = () => {
       const UserCredential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
 
       dispatch(setUser({ email: UserCredential.user.email, id: UserCredential.user.uid }));
-      navigation.navigate('HomeScreen');
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert(error.message);

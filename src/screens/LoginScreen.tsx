@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, Image, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useDispatch } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 
-import { setUser } from '../store/userSlice';
 import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
 import { StackParams } from '../navigation';
@@ -15,18 +13,6 @@ export const LoginScreen = () => {
   const { height } = useWindowDimensions();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const authSubscriber = auth().onAuthStateChanged((user) => {
-      if (user) {
-        dispatch(setUser({ email: user.email, id: user.uid }));
-        navigation.replace('HomeScreen');
-      }
-    });
-
-    return authSubscriber;
-  }, [dispatch, navigation]);
 
   const onLoginInPressed = async () => {
     const firebaseAuth = await auth();
