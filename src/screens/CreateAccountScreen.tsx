@@ -10,6 +10,7 @@ import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
 import { COLORS } from '../constants';
 import { StackParams } from '../navigation';
+import { setIsLoadingFalse, setIsLoadingTrue } from '../store/appSlice';
 
 export const CreateAccountScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
@@ -19,7 +20,10 @@ export const CreateAccountScreen = () => {
   const dispatch = useDispatch();
 
   const onRegisterPressed = async () => {
+    dispatch(setIsLoadingTrue());
+
     if (password !== passwordRepeat) {
+      dispatch(setIsLoadingFalse());
       Alert.alert('Passwords doesnt match!');
       return;
     }
@@ -31,6 +35,7 @@ export const CreateAccountScreen = () => {
       dispatch(setUser({ email: UserCredential.user.email, id: UserCredential.user.uid }));
     } catch (error) {
       if (error instanceof Error) {
+        dispatch(setIsLoadingFalse());
         Alert.alert(error.message);
       }
     }

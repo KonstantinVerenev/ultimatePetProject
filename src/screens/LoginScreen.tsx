@@ -7,19 +7,25 @@ import auth from '@react-native-firebase/auth';
 import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
 import { StackParams } from '../navigation';
+import { useDispatch } from 'react-redux';
+import { setIsLoadingFalse, setIsLoadingTrue } from '../store/appSlice';
 
 export const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const { height } = useWindowDimensions();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const dispatch = useDispatch();
 
   const onLoginInPressed = async () => {
+    dispatch(setIsLoadingTrue());
+
     const firebaseAuth = await auth();
     try {
       await firebaseAuth.signInWithEmailAndPassword(email, password);
     } catch (error) {
       if (error instanceof Error) {
+        dispatch(setIsLoadingFalse());
         Alert.alert(error.message);
       }
     }

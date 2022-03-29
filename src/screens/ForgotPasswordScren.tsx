@@ -8,19 +8,26 @@ import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
 import { COLORS } from '../constants';
 import { StackParams } from '../navigation';
+import { useDispatch } from 'react-redux';
+import { setIsLoadingFalse, setIsLoadingTrue } from '../store/appSlice';
 
 export const ForgotPasswordScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
   const [email, setEmail] = useState<string>('');
+  const dispatch = useDispatch();
 
   const onSendPressed = async () => {
+    dispatch(setIsLoadingTrue());
+
     const firebaseAuth = await auth();
     try {
       await firebaseAuth.sendPasswordResetEmail(email);
+      dispatch(setIsLoadingFalse());
       Alert.alert('Check your email to reset your password');
       navigation.navigate('LoginScreen');
     } catch (error) {
       if (error instanceof Error) {
+        dispatch(setIsLoadingFalse());
         Alert.alert(error.message);
       }
     }
