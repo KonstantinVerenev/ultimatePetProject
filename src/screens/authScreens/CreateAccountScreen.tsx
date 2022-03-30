@@ -5,11 +5,11 @@ import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 
-import { setUser } from '../store/userSlice';
-import { CustomButton } from '../components/CustomButton';
-import { CustomInput } from '../components/CustomInput';
-import { COLORS } from '../constants';
-import { StackParams } from '../navigation';
+import { setUser } from '../../store/userSlice';
+import { CustomButton } from '../../components/CustomButton';
+import { CustomInput } from '../../components/CustomInput';
+import { COLORS } from '../../constants';
+import { StackParams } from '../../navigation';
 
 export const CreateAccountScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();

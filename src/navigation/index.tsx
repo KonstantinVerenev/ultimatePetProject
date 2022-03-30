@@ -5,10 +5,10 @@ import auth from '@react-native-firebase/auth';
 
 //import { OnboadringScreen } from '../screens/OnboadringScreen';
 //import { StartScreen } from '../screens/StartScreen';
-import { LoginScreen } from '../screens/LoginScreen';
-import { CreateAccountScreen } from '../screens/CreateAccountScreen';
-import { ForgotPasswordScreen } from '../screens/ForgotPasswordScren';
-import { HomeScreen } from '../screens/HomeScreen';
+import { LoginScreen } from '../screens/authScreens/LoginScreen';
+import { CreateAccountScreen } from '../screens/authScreens/CreateAccountScreen';
+import { ForgotPasswordScreen } from '../screens/authScreens/ForgotPasswordScren';
+import { HomeScreen } from '../screens/appScreens/HomeScreen';
 import { setUser } from '../store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';

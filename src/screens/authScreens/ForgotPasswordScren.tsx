@@ -4,10 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 
-import { CustomButton } from '../components/CustomButton';
-import { CustomInput } from '../components/CustomInput';
-import { COLORS } from '../constants';
-import { StackParams } from '../navigation';
+import { CustomButton } from '../../components/CustomButton';
+import { CustomInput } from '../../components/CustomInput';
+import { COLORS } from '../../constants';
+import { StackParams } from '../../navigation';
 
 export const ForgotPasswordScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();

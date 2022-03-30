@@ -5,9 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 
-import { removeUser } from '../store/userSlice';
-import { StackParams } from '../navigation';
-import { RootState } from '../store';
+import { removeUser } from '../../store/userSlice';
+import { StackParams } from '../../navigation';
+import { RootState } from '../../store';
 
 export const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
