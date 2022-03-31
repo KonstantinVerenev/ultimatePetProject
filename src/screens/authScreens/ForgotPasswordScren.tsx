@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Alert, SafeAreaView, StyleSheet, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 
-import { CustomButton } from '../components/CustomButton';
-import { CustomInput } from '../components/CustomInput';
-import { COLORS } from '../constants';
-import { StackParams } from '../navigation';
-import { useDispatch } from 'react-redux';
-import { setIsLoadingFalse, setIsLoadingTrue } from '../store/appSlice';
+import { StackParams } from '../../navigation';
+import { setIsLoadingFalse, setIsLoadingTrue } from '../../store/appSlice';
+import { CustomInput } from '../../components/CustomInput';
+import { CustomButton } from '../../components/CustomButton';
 
 export const ForgotPasswordScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();

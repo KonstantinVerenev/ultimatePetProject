@@ -19,8 +19,8 @@ import {
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { COLORS } from '../constants';
-import { StackParams } from '../navigation';
+import { COLORS } from '../../constants';
+import { StackParams } from '../../navigation';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -31,19 +31,19 @@ const { width } = Dimensions.get('window');
 const slides = [
   {
     id: '01',
-    image: require('../../assets/onboarding_01.png'),
+    image: require('../../../assets/onboarding_01.png'),
     title: 'Some title',
     subtitle: 'Some subtitle with additional information',
   },
   {
     id: '02',
-    image: require('../../assets/onboarding_02.png'),
+    image: require('../../../assets/onboarding_02.png'),
     title: 'Some title',
     subtitle: 'Some subtitle with additional information',
   },
   {
     id: '03',
-    image: require('../../assets/onboarding_03.png'),
+    image: require('../../../assets/onboarding_03.png'),
     title: 'Some title',
     subtitle: 'Some subtitle with additional information',
   },

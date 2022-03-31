@@ -5,11 +5,11 @@ import auth from '@react-native-firebase/auth';
 
 //import { OnboadringScreen } from '../screens/OnboadringScreen';
 //import { StartScreen } from '../screens/StartScreen';
-import { LoginScreen } from '../screens/LoginScreen';
-import { CreateAccountScreen } from '../screens/CreateAccountScreen';
-import { ForgotPasswordScreen } from '../screens/ForgotPasswordScren';
-import { HomeScreen } from '../screens/HomeScreen';
-import { setUser } from '../store/userSlice';
+import { LoginScreen } from '../screens/authScreens/LoginScreen';
+import { CreateAccountScreen } from '../screens/authScreens/CreateAccountScreen';
+import { ForgotPasswordScreen } from '../screens/authScreens/ForgotPasswordScren';
+import { HomeScreen } from '../screens/appScreens/HomeScreen';
+import { removeUser, setUser } from '../store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { LoadingScreen } from '../screens/LoadingScreen';
@@ -36,7 +36,9 @@ export const AppNavigator = () => {
       if (user) {
         dispatch(setUser({ email: user.email, id: user.uid }));
       }
-
+      if (user === null) {
+        dispatch(removeUser());
+      }
       dispatch(setIsLoadingFalse());
     });
 

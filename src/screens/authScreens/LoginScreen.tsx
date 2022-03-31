@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Alert, Image, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 
-import { CustomButton } from '../components/CustomButton';
-import { CustomInput } from '../components/CustomInput';
-import { StackParams } from '../navigation';
-import { useDispatch } from 'react-redux';
-import { setIsLoadingFalse, setIsLoadingTrue } from '../store/appSlice';
+import { StackParams } from '../../navigation';
+import { setIsLoadingFalse, setIsLoadingTrue } from '../../store/appSlice';
+import { CustomInput } from '../../components/CustomInput';
+import { CustomButton } from '../../components/CustomButton';
 
 export const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
@@ -42,7 +42,7 @@ export const LoginScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Image
-        source={require('../../assets/Logo.png')}
+        source={require('../../../assets/Logo.png')}
         style={[styles.logo, { height: height * 0.25 }]}
         resizeMode={'contain'}
       />
