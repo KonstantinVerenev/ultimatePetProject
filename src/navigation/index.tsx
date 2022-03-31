@@ -9,7 +9,7 @@ import { LoginScreen } from '../screens/authScreens/LoginScreen';
 import { CreateAccountScreen } from '../screens/authScreens/CreateAccountScreen';
 import { ForgotPasswordScreen } from '../screens/authScreens/ForgotPasswordScren';
 import { HomeScreen } from '../screens/appScreens/HomeScreen';
-import { setUser } from '../store/userSlice';
+import { removeUser, setUser } from '../store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 
@@ -32,6 +32,10 @@ export const AppNavigator = () => {
     const authSubscriber = auth().onAuthStateChanged((user) => {
       if (user) {
         dispatch(setUser({ email: user.email, id: user.uid }));
+      }
+
+      if (user === null) {
+        dispatch(removeUser());
       }
     });
 
