@@ -12,7 +12,6 @@ import { HomeScreen } from '../screens/appScreens/HomeScreen';
 import { removeUser, setUser } from '../store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { LoadingScreen } from '../screens/LoadingScreen';
 import { setIsLoadingFalse } from '../store/appSlice';
 
 export type StackParams = {
@@ -27,7 +26,6 @@ export type StackParams = {
 const Stack = createNativeStackNavigator();
 
 export const AppNavigator = () => {
-  const isLoading = useSelector((state: RootState) => state.app.isLoading);
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const dispatch = useDispatch();
 
@@ -72,8 +70,6 @@ export const AppNavigator = () => {
           </Stack.Group>
         )}
       </Stack.Navigator>
-
-      {isLoading && <LoadingScreen />}
     </NavigationContainer>
   );
 };

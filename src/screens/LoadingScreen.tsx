@@ -1,12 +1,16 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 export const LoadingScreen: React.FC = () => {
-  return (
+  const isLoading = useSelector((state: RootState) => state.app.isLoading);
+
+  return isLoading ? (
     <View style={styles.loadingWrapper}>
       <ActivityIndicator size={'large'} color={'black'} style={styles.loadingIndicator} />
     </View>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({

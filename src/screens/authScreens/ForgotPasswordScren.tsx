@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 
+import { COLORS } from '../../constants';
 import { StackParams } from '../../navigation';
 import { setIsLoadingFalse, setIsLoadingTrue } from '../../store/appSlice';
 import { CustomInput } from '../../components/CustomInput';
