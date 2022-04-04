@@ -3,8 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 
-//import { OnboadringScreen } from '../screens/OnboadringScreen';
-//import { StartScreen } from '../screens/StartScreen';
+import { StartScreen } from '../screens/introScreens/StartScreen';
 import { LoginScreen } from '../screens/authScreens/LoginScreen';
 import { CreateAccountScreen } from '../screens/authScreens/CreateAccountScreen';
 import { ForgotPasswordScreen } from '../screens/authScreens/ForgotPasswordScren';
@@ -13,6 +12,7 @@ import { removeUser, setUser } from '../store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { setIsLoadingFalse } from '../store/appSlice';
+import { OnboadringScreen } from '../screens/introScreens/OnboadringScreen';
 
 export type StackParams = {
   OnboadringScreen: undefined;
@@ -47,10 +47,10 @@ export const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {/* Intro screens */}
-        {/*<Stack.Group screenOptions={{ headerShown: false }}>
+        <Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen name="OnboadringScreen" component={OnboadringScreen} />
           <Stack.Screen name="StartScreen" component={StartScreen} />
-        </Stack.Group>*/}
+        </Stack.Group>
 
         {isLoggedIn ? (
           // Screens for logged in

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AnimatePresence, MotiView } from 'moti';
+import { AnimatePresence, Image, MotiImage, MotiView } from 'moti';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { StackParams } from '../../navigation';
@@ -24,7 +24,8 @@ const PulseButton: React.FC<{ buttonText: string; onPress: () => void }> = ({
         {[...Array(3).keys()].map((index: number) => {
           return (
             visible && (
-              <MotiView
+              <MotiImage
+                source={require('../../../assets/google-logo.png')}
                 from={{ opacity: 0.5, scale: 1 }}
                 animate={{ opacity: 0, scale: 3 }}
                 transition={{
@@ -45,17 +46,56 @@ const PulseButton: React.FC<{ buttonText: string; onPress: () => void }> = ({
                 key={index}
                 style={{
                   position: 'absolute',
-                  width: 100,
-                  height: 100,
-                  borderRadius: 50,
-                  backgroundColor: 'teal',
+                  width: 150,
+                  height: 150,
+                  resizeMode: 'contain',
+                  //borderRadius: 50,
+                  backgroundColor: 'transparent',
                 }}
               />
+              //<MotiView
+              //  from={{ opacity: 0.5, scale: 1 }}
+              //  animate={{ opacity: 0, scale: 3 }}
+              //  transition={{
+              //    type: 'timing',
+              //    duration: 2100,
+              //    loop: true,
+              //    repeatReverse: false,
+              //    delay: index * 700,
+              //  }}
+              //  exitTransition={{
+              //    type: 'timing',
+              //    duration: 500,
+              //    loop: false,
+              //    repeatReverse: false,
+              //    delay: 0,
+              //  }}
+              //  exit={{ opacity: 1, scale: 50 }}
+              //  key={index}
+              //  style={{
+              //    position: 'absolute',
+              //    width: 100,
+              //    height: 100,
+              //    borderRadius: 50,
+              //    backgroundColor: 'teal',
+              //  }}
+              ///>
             )
           );
         })}
       </AnimatePresence>
-      <Text style={styles.pulseButtonText}>{buttonText}</Text>
+      <Image
+        source={require('../../../assets/google-logo.png')}
+        style={{
+          position: 'absolute',
+          width: 150,
+          height: 150,
+          resizeMode: 'contain',
+          //borderRadius: 50,
+          backgroundColor: 'transparent',
+        }}
+      />
+      {/*<Text style={styles.pulseButtonText}>{buttonText}</Text>*/}
     </Pressable>
   );
 };
@@ -96,10 +136,10 @@ const styles = StyleSheet.create({
   pulseButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: 'teal',
+    width: 150,
+    height: 150,
+    //borderRadius: 50,
+    //backgroundColor: 'teal',
     zIndex: 1,
   },
   pulseButtonText: {
