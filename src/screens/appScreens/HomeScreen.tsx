@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { Text, SafeAreaView, Switch, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { useTheme } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import { toggleTheme } from '../../store/appSlice';
 import { CustomButton } from '../../components/CustomButton';
 
 export const HomeScreen = () => {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const dispatch = useDispatch();
   const { colors } = useTheme();
   const email = useSelector((state: RootState) => state.user.email);
@@ -20,6 +21,7 @@ export const HomeScreen = () => {
   };
 
   const toggleAppTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
     dispatch(toggleTheme());
   };
 
@@ -27,11 +29,17 @@ export const HomeScreen = () => {
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
       <Text style={{ color: colors.text }}>Home Screen</Text>
       <Text style={{ color: colors.text }}>Current User: {email}</Text>
-      {darkTheme ? (
-        <CustomButton text="Change to Ligth Theme" onPress={toggleAppTheme} />
-      ) : (
-        <CustomButton text="Change to Dark Theme" onPress={toggleAppTheme} />
-      )}
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
+        <Text style={{ color: colors.text }}>Dark mode: </Text>
+        <Switch
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          thumbColor={isDarkTheme ? 'teal' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          value={isDarkTheme}
+          onValueChange={toggleAppTheme}
+        />
+      </View>
       <CustomButton text="Log Out" onPress={onLogoutPress} />
     </SafeAreaView>
   );
