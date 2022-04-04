@@ -26,6 +26,7 @@ export type StackParams = {
 const Stack = createNativeStackNavigator();
 
 export const AppNavigator = () => {
+  const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const dispatch = useDispatch();
 
@@ -43,9 +44,38 @@ export const AppNavigator = () => {
     return authSubscriber;
   }, [dispatch]);
 
+  const MyTheme = darkTheme
+    ? {
+        dark: true,
+        colors: {
+          primary: 'rgb(255, 45, 85)',
+          background: '#282534',
+          card: 'rgb(255, 255, 255)',
+          text: 'white',
+          border: 'rgb(199, 199, 204)',
+          notification: 'rgb(255, 69, 58)',
+        },
+      }
+    : {
+        dark: false,
+        colors: {
+          primary: 'rgb(255, 45, 85)',
+          background: '#F9FBFC',
+          card: 'rgb(255, 255, 255)',
+          text: 'black',
+          border: 'rgb(199, 199, 204)',
+          notification: 'rgb(255, 69, 58)',
+        },
+      };
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <NavigationContainer theme={MyTheme}>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: 'teal' },
+          headerShadowVisible: true,
+        }}
+      >
         {/* Intro screens */}
         {/*<Stack.Group screenOptions={{ headerShown: false }}>
           <Stack.Screen name="OnboadringScreen" component={OnboadringScreen} />

@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type AppState = {
   isLoading: boolean;
+  darkTheme: boolean;
 };
 
 const initialState: AppState = {
   isLoading: false,
+  darkTheme: false,
 };
 
 const appSlice = createSlice({
@@ -18,9 +20,12 @@ const appSlice = createSlice({
     setIsLoadingFalse(state) {
       state.isLoading = false;
     },
+    toggleTheme(state) {
+      state.darkTheme = !state.darkTheme;
+    },
   },
 });
 
-export const { setIsLoadingTrue, setIsLoadingFalse } = appSlice.actions;
+export const { setIsLoadingTrue, setIsLoadingFalse, toggleTheme } = appSlice.actions;
 
 export default appSlice.reducer;
