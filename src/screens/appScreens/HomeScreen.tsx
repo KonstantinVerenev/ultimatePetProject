@@ -13,7 +13,6 @@ export const HomeScreen = () => {
   const dispatch = useDispatch();
   const { colors } = useTheme();
   const email = useSelector((state: RootState) => state.user.email);
-  const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
 
   const onLogoutPress = async () => {
     const firebaseAuth = await auth();
