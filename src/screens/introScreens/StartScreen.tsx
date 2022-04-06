@@ -5,6 +5,7 @@ import { AnimatePresence, MotiView } from 'moti';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { StackParams } from '../../navigation';
+import { COLORS } from '../../constants';
 
 const PulseButton: React.FC<{ buttonText: string; onPress: () => void }> = ({
   buttonText,
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    backgroundColor: COLORS.dark.background,
   },
   ring: {
     position: 'absolute',

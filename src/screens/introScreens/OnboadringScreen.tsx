@@ -146,7 +146,7 @@ export const OnboadringScreen = () => {
         ) : (
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <TouchableOpacity onPress={onPressSkip} style={[styles.button, styles.darkButton]}>
-              <Text style={[styles.buttonText, { color: COLORS.white }]}>SKIP</Text>
+              <Text style={[styles.buttonText, { color: COLORS.dark.text }]}>SKIP</Text>
             </TouchableOpacity>
             <View style={{ width: 20 }} />
             <TouchableOpacity style={styles.button} onPress={onPressNext}>
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.main,
+    backgroundColor: COLORS.dark.background,
   },
   slide: {
     width: width,
@@ -178,14 +178,14 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    color: COLORS.white,
+    color: COLORS.dark.text,
     fontSize: 24,
     fontWeight: '700',
     textAlign: 'center',
     marginTop: 10,
   },
   subtitle: {
-    color: COLORS.white,
+    color: COLORS.dark.text,
     fontSize: 20,
     marginTop: 10,
   },
@@ -196,12 +196,12 @@ const styles = StyleSheet.create({
   indicator: {
     height: 15,
     width: 20,
-    backgroundColor: COLORS.grey,
+    backgroundColor: 'grey',
     marginHorizontal: 5,
     borderRadius: 10,
   },
   activeIndicator: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.dark.text,
     width: 30,
   },
   buttonsWrapper: {
@@ -213,13 +213,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 50,
     width: 150,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.dark.text,
     borderRadius: 5,
   },
   darkButton: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: COLORS.white,
+    borderColor: COLORS.dark.text,
   },
   buttonText: {
     fontWeight: '700',

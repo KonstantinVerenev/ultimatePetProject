@@ -13,6 +13,7 @@ import { removeUser, setUser } from '../store/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { setIsLoadingFalse } from '../store/appSlice';
+import { COLORS } from '../constants';
 
 export type StackParams = {
   OnboadringScreen: undefined;
@@ -44,32 +45,8 @@ export const AppNavigator = () => {
     return authSubscriber;
   }, [dispatch]);
 
-  const MyTheme = darkTheme
-    ? {
-        dark: true,
-        colors: {
-          primary: 'rgb(255, 45, 85)',
-          background: '#282534',
-          card: 'rgb(255, 255, 255)',
-          text: 'white',
-          border: 'rgb(199, 199, 204)',
-          notification: 'rgb(255, 69, 58)',
-        },
-      }
-    : {
-        dark: false,
-        colors: {
-          primary: 'rgb(255, 45, 85)',
-          background: '#F9FBFC',
-          card: 'rgb(255, 255, 255)',
-          text: 'black',
-          border: 'rgb(199, 199, 204)',
-          notification: 'rgb(255, 69, 58)',
-        },
-      };
-
   return (
-    <NavigationContainer theme={MyTheme}>
+    <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerStyle: { backgroundColor: 'teal' },
@@ -78,7 +55,16 @@ export const AppNavigator = () => {
       >
         {isLoggedIn ? (
           // Screens for logged in
-          <Stack.Group>
+          <Stack.Group
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: darkTheme ? COLORS.dark.background : COLORS.light.background,
+              },
+              headerTitleStyle: {
+                color: darkTheme ? COLORS.dark.text : COLORS.light.text,
+              },
+            }}
+          >
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
           </Stack.Group>
         ) : (

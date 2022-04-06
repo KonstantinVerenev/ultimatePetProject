@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container_PRIMARY: {
-    backgroundColor: COLORS.blue,
+    backgroundColor: COLORS.light.buttonBackground,
   },
   container_TERTIARY: {
     backgroundColor: 'transparent',
   },
   container_SECONDARY: {
-    borderColor: COLORS.blue,
+    borderColor: COLORS.light.buttonBackground,
     borderWidth: 1,
   },
   text: {

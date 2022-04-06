@@ -1,6 +1,5 @@
 import React, { SetStateAction } from 'react';
 import { View, TextInput, StyleSheet, Platform } from 'react-native';
-import { COLORS } from '../constants';
 
 type CustomInputProps = {
   value: string;
@@ -33,8 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '80%',
     maxWidth: 400,
-    //padding: 15,
-    borderColor: COLORS.grey,
+    borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 5,
     marginVertical: 5,
