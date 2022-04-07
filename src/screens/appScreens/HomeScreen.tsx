@@ -1,54 +1,43 @@
-import React, { useState } from 'react';
-import { Text, SafeAreaView, Switch, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import auth from '@react-native-firebase/auth';
+import React from 'react';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import { RootState } from '../../store';
-import { toggleTheme } from '../../store/appSlice';
-import { CustomButton } from '../../components/CustomButton';
 import { COLORS } from '../../constants';
+import { TopBar } from '../../components/TopBar';
+import { Image } from 'moti';
 
 export const HomeScreen = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const dispatch = useDispatch();
-
-  const email = useSelector((state: RootState) => state.user.email);
-
-  const onLogoutPress = async () => {
-    const firebaseAuth = await auth();
-    await firebaseAuth.signOut();
-  };
-
-  const toggleAppTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-    dispatch(toggleTheme());
-  };
-
-  const textColor = isDarkTheme ? COLORS.dark.text : COLORS.light.text;
+  const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
 
   return (
     <SafeAreaView
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: isDarkTheme ? COLORS.dark.background : COLORS.light.background,
-      }}
+      style={[
+        {
+          ...styles.container,
+          backgroundColor: darkTheme ? COLORS.dark.background : COLORS.light.background,
+        },
+      ]}
     >
-      <Text style={{ color: textColor }}>Home Screen</Text>
-      <Text style={{ color: textColor }}>Current User: {email}</Text>
+      <TopBar />
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
-        <Text style={{ color: textColor }}>Dark mode: </Text>
-        <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isDarkTheme ? 'teal' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          value={isDarkTheme}
-          onValueChange={toggleAppTheme}
-        />
-      </View>
-      <CustomButton text="Log Out" onPress={onLogoutPress} />
+      <Image
+        source={require('../../../assets/DottedBG.png')}
+        style={{
+          alignSelf: 'flex-end',
+          width: '60%',
+          height: '95%',
+          position: 'absolute',
+          bottom: 0,
+          zIndex: -1,
+          resizeMode: 'contain',
+          opacity: 0.5,
+        }}
+      />
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+});

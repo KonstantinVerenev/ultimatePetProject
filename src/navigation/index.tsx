@@ -27,8 +27,9 @@ export type StackParams = {
 const Stack = createNativeStackNavigator();
 
 export const AppNavigator = () => {
-  const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
-  const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  //const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
+  //const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  const isLoggedIn = true;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,14 +57,15 @@ export const AppNavigator = () => {
         {isLoggedIn ? (
           // Screens for logged in
           <Stack.Group
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: darkTheme ? COLORS.dark.background : COLORS.light.background,
-              },
-              headerTitleStyle: {
-                color: darkTheme ? COLORS.dark.text : COLORS.light.text,
-              },
-            }}
+            screenOptions={{ headerShown: false }}
+            //screenOptions={{
+            //  headerStyle: {
+            //    backgroundColor: darkTheme ? COLORS.dark.background : COLORS.light.background,
+            //  },
+            //  headerTitleStyle: {
+            //    color: darkTheme ? COLORS.dark.text : COLORS.light.text,
+            //  },
+            //}}
           >
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
           </Stack.Group>
