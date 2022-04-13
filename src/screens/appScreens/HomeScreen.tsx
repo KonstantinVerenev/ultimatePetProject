@@ -9,6 +9,7 @@ import { quizData } from '../../data/quizData';
 import { CustomButton } from '../../components/CustomButton';
 import { CustomModal } from '../../components/CustomModal';
 import { BackgroundImage } from '../../components/BackgroundImage';
+import { AnswersProgressBar } from '../../components/AnswersProgressBar';
 
 export const HomeScreen = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -111,6 +112,12 @@ export const HomeScreen = () => {
       <StatusBar barStyle={darkTheme ? 'light-content' : 'dark-content'} />
 
       <TopBar />
+
+      {/*Progress Bar*/}
+      <AnswersProgressBar
+        questionLength={question.length}
+        currentQuestionIndex={currentQuestionIndex}
+      />
 
       <View style={styles.wrapper}>
         {/* Counter */}
