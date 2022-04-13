@@ -223,5 +223,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: '700',
+    color: 'black',
   },
 });

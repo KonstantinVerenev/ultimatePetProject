@@ -51,5 +51,6 @@ const styles = StyleSheet.create({
   scoreMessageText: {
     marginVertical: 5,
     fontSize: 24,
+    color: 'black',
   },
 });

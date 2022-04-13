@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   questionText: {
     marginTop: 20,
-    fontSize: 30,
+    fontSize: 26,
   },
   option: {
     flexDirection: 'row',

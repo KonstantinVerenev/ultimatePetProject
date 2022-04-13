@@ -32,7 +32,6 @@ export const AnswersProgressBar: React.FC<AnswersProgressBarProps> = ({
       duration: 500,
       easing: Easing.ease,
     });
-    console.log('effect');
   }, [currentQuestionIndex, progress]);
 
   return (
