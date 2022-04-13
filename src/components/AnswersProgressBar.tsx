@@ -1,5 +1,13 @@
-import { View, Animated } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import Animated, {
+  Easing,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+
 import { COLORS } from '../constants';
 
 type AnswersProgressBarProps = {
@@ -11,40 +19,41 @@ export const AnswersProgressBar: React.FC<AnswersProgressBarProps> = ({
   questionLength,
   currentQuestionIndex,
 }) => {
-  const [progress] = useState(new Animated.Value(0));
+  const progress = useSharedValue(0);
 
-  Animated.timing(progress, {
-    toValue: currentQuestionIndex,
-    duration: 1000,
-    useNativeDriver: false,
-  }).start();
+  const animatedStyles = useAnimatedStyle(() => {
+    const widthAnim = interpolate(progress.value, [0, questionLength], [0, 100]);
 
-  const progressAnim = progress.interpolate({
-    inputRange: [0, questionLength],
-    outputRange: ['0%', '100%'],
+    return { width: `${widthAnim}%` };
   });
 
+  useEffect(() => {
+    progress.value = withTiming(currentQuestionIndex, {
+      duration: 500,
+      easing: Easing.ease,
+    });
+    console.log('effect');
+  }, [currentQuestionIndex, progress]);
+
   return (
-    <View
-      style={{
-        marginHorizontal: 10,
-        marginTop: 25,
-        height: 20,
-        borderRadius: 20,
-        backgroundColor: COLORS.accent,
-        overflow: 'hidden',
-      }}
-    >
-      <Animated.View
-        style={[
-          {
-            height: '100%',
-            borderRadius: 20,
-            backgroundColor: COLORS.buttonBackground,
-          },
-          { width: progressAnim },
-        ]}
-      />
+    <View style={styles.barArea}>
+      <Animated.View style={[styles.barFill, animatedStyles]} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  barArea: {
+    marginHorizontal: 10,
+    marginTop: 25,
+    height: 20,
+    borderRadius: 20,
+    backgroundColor: COLORS.accent,
+    overflow: 'hidden',
+  },
+  barFill: {
+    height: '100%',
+    borderRadius: 20,
+    backgroundColor: COLORS.buttonBackground,
+  },
+});
