@@ -20,9 +20,11 @@ export const CustomModal: React.FC<CustomModalProps> = ({
     <Modal animationType="slide" transparent={true} visible={showScore}>
       <View style={styles.modalContainer}>
         <View style={styles.scoreMessage}>
-          <Text style={styles.scoreMessageText}>Your Score:</Text>
           <Text style={styles.scoreMessageText}>
-            {score}/{questionLenght}
+            Your Score: {score}/{questionLenght}
+          </Text>
+          <Text style={styles.scoreMessageText}>
+            It&#39;s: {Math.floor((score / questionLenght) * 100)}%
           </Text>
 
           <CustomButton onPress={onPressRetry} text={'Retry Quiz'} />
