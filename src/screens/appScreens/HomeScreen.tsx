@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../../store';
@@ -7,6 +7,8 @@ import { COLORS } from '../../constants';
 import { TopBar } from '../../components/TopBar';
 import { quizData } from '../../data/quizData';
 import { CustomButton } from '../../components/CustomButton';
+import { CustomModal } from '../../components/CustomModal';
+import { BackgroundImage } from '../../components/BackgroundImage';
 
 export const HomeScreen = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -20,9 +22,11 @@ export const HomeScreen = () => {
   const question = quizData;
 
   const validateAnswer = (selectedOptions: string) => {
-    const correctOption = question[currentQuestionIndex]?.correct_option;
     setCurrentOptionsSelected(selectedOptions);
+
+    const correctOption = question[currentQuestionIndex]?.correct_option;
     setCorrectOptions(correctOption);
+
     setIsOptionsDisabled(true);
 
     if (selectedOptions === correctOption) {
@@ -32,7 +36,7 @@ export const HomeScreen = () => {
     setShowNextButton(true);
   };
 
-  const nextHandler = () => {
+  const onPressNext = () => {
     if (currentQuestionIndex === question.length - 1) {
       setShowScore(true);
     } else {
@@ -44,7 +48,7 @@ export const HomeScreen = () => {
     }
   };
 
-  const retryHandler = () => {
+  const onPressRetry = () => {
     setShowScore(false);
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -55,6 +59,46 @@ export const HomeScreen = () => {
     setShowNextButton(false);
   };
 
+  const answerOptions = (
+    <View>
+      {question[currentQuestionIndex]?.options.map((option) => {
+        return (
+          <TouchableOpacity
+            style={[
+              {
+                ...styles.option,
+                borderColor:
+                  option === correctOptions
+                    ? 'green'
+                    : option === currentOptionsSelected
+                    ? 'red'
+                    : '#8accf1',
+              },
+            ]}
+            key={option}
+            onPress={() => validateAnswer(option)}
+            disabled={isOptionsDisabled}
+          >
+            <Text
+              style={[
+                {
+                  ...styles.optionText,
+                  color: darkTheme ? COLORS.dark.text : COLORS.light.text,
+                },
+              ]}
+            >
+              {option}
+            </Text>
+            {option === correctOptions && <Text style={styles.correctAnswer}>Correct</Text>}
+            {option === currentOptionsSelected && option !== correctOptions && (
+              <Text style={styles.wrongAnswer}>Wrong</Text>
+            )}
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+
   return (
     <SafeAreaView
       style={[
@@ -64,6 +108,8 @@ export const HomeScreen = () => {
         },
       ]}
     >
+      <StatusBar barStyle={darkTheme ? 'light-content' : 'dark-content'} />
+
       <TopBar />
 
       <View style={styles.wrapper}>
@@ -86,75 +132,21 @@ export const HomeScreen = () => {
         </Text>
 
         {/* Options */}
-        <View>
-          {question[currentQuestionIndex]?.options.map((option) => {
-            return (
-              <TouchableOpacity
-                style={[
-                  {
-                    ...styles.option,
-                    borderColor:
-                      option === correctOptions
-                        ? 'green'
-                        : option === currentOptionsSelected
-                        ? 'red'
-                        : 'lightblue',
-                  },
-                ]}
-                key={option}
-                onPress={() => validateAnswer(option)}
-                disabled={isOptionsDisabled}
-              >
-                <Text
-                  style={[
-                    {
-                      ...styles.optionText,
-                      color: darkTheme ? COLORS.dark.text : COLORS.light.text,
-                    },
-                  ]}
-                >
-                  {option}
-                </Text>
-                {option === correctOptions && <Text style={{ color: 'green' }}>Correct</Text>}
-                {option === currentOptionsSelected && option !== correctOptions && (
-                  <Text style={{ color: 'red' }}>Wrong</Text>
-                )}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        {answerOptions}
       </View>
 
       {/* Next button */}
-      {showNextButton && <CustomButton onPress={nextHandler} text={'NEXT'} />}
+      {showNextButton && <CustomButton onPress={onPressNext} text={'NEXT'} />}
 
       {/* Score modal */}
-      <Modal animationType="slide" transparent={true} visible={showScore}>
-        <View style={styles.modalContainer}>
-          <View style={styles.scoreMessage}>
-            <Text style={styles.scoreMessageText}>Your Score:</Text>
-            <Text style={styles.scoreMessageText}>
-              {score}/{question.length}
-            </Text>
-
-            <CustomButton onPress={retryHandler} text={'Retry Quiz'} />
-          </View>
-        </View>
-      </Modal>
-
-      <Image
-        source={require('../../../assets/DottedBG.png')}
-        style={{
-          alignSelf: 'flex-end',
-          width: '60%',
-          height: '95%',
-          position: 'absolute',
-          bottom: 0,
-          zIndex: -1,
-          resizeMode: 'contain',
-          opacity: 0.5,
-        }}
+      <CustomModal
+        showScore={showScore}
+        score={score}
+        questionLenght={question.length}
+        onPressRetry={onPressRetry}
       />
+
+      <BackgroundImage />
     </SafeAreaView>
   );
 };
@@ -162,7 +154,6 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
   wrapper: {
     margin: 20,
@@ -180,29 +171,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 15,
     borderWidth: 3,
-    borderColor: COLORS.dark.buttonBackground,
+    borderColor: COLORS.buttonBackground,
     borderRadius: 20,
     padding: 15,
-    backgroundColor: COLORS.dark.accent,
+    backgroundColor: COLORS.accent,
   },
   optionText: {
     fontSize: 20,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.dark.background,
+  wrongAnswer: {
+    fontWeight: 'bold',
+    backgroundColor: COLORS.red,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: COLORS.red,
+    overflow: 'hidden',
   },
-  scoreMessage: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    borderRadius: 20,
-    backgroundColor: COLORS.light.background,
-  },
-  scoreMessageText: {
-    marginVertical: 5,
-    fontSize: 24,
+  correctAnswer: {
+    fontWeight: 'bold',
+    backgroundColor: COLORS.green,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: COLORS.green,
+    overflow: 'hidden',
   },
 });

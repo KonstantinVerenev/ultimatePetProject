@@ -1,5 +1,5 @@
-import { Text, StyleSheet, Pressable, ViewStyle } from 'react-native';
 import React from 'react';
+import { Text, StyleSheet, Pressable, ViewStyle } from 'react-native';
 import { COLORS } from '../constants';
 
 type CustomButtonType = {
@@ -26,16 +26,17 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
     marginVertical: 5,
+    alignSelf: 'center',
     alignItems: 'center',
   },
   container_PRIMARY: {
-    backgroundColor: COLORS.light.buttonBackground,
+    backgroundColor: COLORS.buttonBackground,
   },
   container_TERTIARY: {
     backgroundColor: 'transparent',
   },
   container_SECONDARY: {
-    borderColor: COLORS.light.buttonBackground,
+    borderColor: COLORS.buttonBackground,
     borderWidth: 1,
   },
   text: {

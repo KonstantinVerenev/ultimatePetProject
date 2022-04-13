@@ -11,22 +11,22 @@ export const quizData = [
     options: ['Chand Minar', 'Taj Mahal', 'Stadium'],
     correct_option: 'Taj Mahal',
   },
-  //{
-  //  id: '003',
-  //  question: 'What land animal can open its mouth the widest?',
-  //  options: ['Alligator', 'Crocodile', 'Baboon', 'Hippo'],
-  //  correct_option: 'Hippo',
-  //},
-  //{
-  //  id: '004',
-  //  question: 'What is the largest animal on Earth?',
-  //  options: ['The African elephant', 'The blue whale', 'The sperm whale', 'The giant squid'],
-  //  correct_option: 'The blue whale',
-  //},
-  //{
-  //  id: '005',
-  //  question: 'What is the only flying mammal?',
-  //  options: ['The bat', 'The flying squirrel', 'The bald eagle', 'The colugo'],
-  //  correct_option: 'The bat',
-  //},
+  {
+    id: '003',
+    question: 'What land animal can open its mouth the widest?',
+    options: ['Alligator', 'Crocodile', 'Baboon', 'Hippo'],
+    correct_option: 'Hippo',
+  },
+  {
+    id: '004',
+    question: 'What is the largest animal on Earth?',
+    options: ['The African elephant', 'The blue whale', 'The sperm whale', 'The giant squid'],
+    correct_option: 'The blue whale',
+  },
+  {
+    id: '005',
+    question: 'What is the only flying mammal?',
+    options: ['The bat', 'The flying squirrel', 'The bald eagle', 'The colugo'],
+    correct_option: 'The bat',
+  },
 ];

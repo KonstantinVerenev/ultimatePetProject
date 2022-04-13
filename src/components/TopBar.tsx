@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 30,
     width: 100,
-    backgroundColor: COLORS.dark.buttonBackground,
+    backgroundColor: COLORS.buttonBackground,
     borderRadius: 5,
   },
   darkButton: {
