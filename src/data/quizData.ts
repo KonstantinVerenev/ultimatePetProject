@@ -1,4 +1,11 @@
-export const quizData = [
+export type question = {
+  id: string;
+  question: string;
+  options: string[];
+  correct_option: string;
+};
+
+export const questions: question[] = [
   {
     id: '001',
     question: 'What is React Native?',
