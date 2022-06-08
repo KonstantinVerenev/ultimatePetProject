@@ -1,9 +1,8 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
 
 import { COLORS } from '../constants';
-import { RootState } from '../store';
+import { useDarkTheme } from '../hooks/useDarkTheme';
 
 type AnswerOptionProps = {
   option: string;
@@ -20,7 +19,7 @@ export const AnswerOption: React.FC<AnswerOptionProps> = ({
   currentOptionsSelected,
   isOptionsDisabled,
 }) => {
-  const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
+  const darkTheme = useDarkTheme();
 
   return (
     <TouchableOpacity
@@ -62,8 +61,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 5,
     marginLeft: 20,
     marginRight: 20,
     borderWidth: 3,
@@ -76,6 +75,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   wrongAnswer: {
+    padding: 2,
+    color: COLORS.light.text,
     fontWeight: 'bold',
     backgroundColor: COLORS.red,
     borderRadius: 5,
@@ -84,6 +85,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   correctAnswer: {
+    padding: 2,
+    color: COLORS.light.text,
     fontWeight: 'bold',
     backgroundColor: COLORS.green,
     borderRadius: 5,

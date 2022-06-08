@@ -1,9 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
 import { COLORS } from '../constants';
+import { useDarkTheme } from '../hooks/useDarkTheme';
 
-import { RootState } from '../store';
 import { BackgroundImage } from './BackgroundImage';
 
 type AppScreenProps = {
@@ -11,7 +10,7 @@ type AppScreenProps = {
 };
 
 export const AppScreen: React.FC<AppScreenProps> = ({ children }) => {
-  const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
+  const darkTheme = useDarkTheme();
 
   return (
     <SafeAreaView

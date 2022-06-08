@@ -6,9 +6,10 @@ import auth from '@react-native-firebase/auth';
 import { COLORS } from '../constants';
 import { RootState } from '../store';
 import { toggleTheme } from '../store/appSlice';
+import { useDarkTheme } from '../hooks/useDarkTheme';
 
 export const TopBar = () => {
-  const isDarkTheme = useSelector((state: RootState) => state.app.darkTheme);
+  const isDarkTheme = useDarkTheme();
   const dispatch = useDispatch();
   const email = useSelector((state: RootState) => state.user.email);
 

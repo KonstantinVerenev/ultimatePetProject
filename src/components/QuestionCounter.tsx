@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { useSelector } from 'react-redux';
-import { COLORS } from '../constants';
 
-import { RootState } from '../store';
+import { COLORS } from '../constants';
+import { useDarkTheme } from '../hooks/useDarkTheme';
 
 type QuestionCounterProps = {
   currentQuestionIndex: number;
@@ -14,7 +13,7 @@ export const QuestionCounter: React.FC<QuestionCounterProps> = ({
   currentQuestionIndex,
   numberOfQuestions,
 }) => {
-  const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
+  const darkTheme = useDarkTheme();
 
   return (
     <Text
@@ -27,7 +26,7 @@ export const QuestionCounter: React.FC<QuestionCounterProps> = ({
 
 const styles = StyleSheet.create({
   counterText: {
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: 20,
     marginRight: 20,
     fontSize: 30,
