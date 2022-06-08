@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { TopBar } from '../../components/TopBar';
 import { questions } from '../../data/quizData';
 import { CustomButton } from '../../components/CustomButton';
 import { CustomModal } from '../../components/CustomModal';
-import { BackgroundImage } from '../../components/BackgroundImage';
 import { AnswersProgressBar } from '../../components/AnswersProgressBar';
 import { AnswerOption } from '../../components/AnswerOption';
 import { QuestionCounter } from '../../components/QuestionCounter';
@@ -20,19 +19,22 @@ export const HomeScreen = () => {
   const [showNextButton, setShowNextButton] = useState(false);
   const [showScore, setShowScore] = useState(false);
 
-  const validateAnswer = (selectedOptions: string) => {
-    setCurrentOptionsSelected(selectedOptions);
+  const validateAnswer = useCallback(
+    (selectedOptions: string): void => {
+      setCurrentOptionsSelected(selectedOptions);
 
-    const correctOption = questions[currentQuestionIndex]?.correct_option;
-    setCorrectOptions(correctOption);
-    setIsOptionsDisabled(true);
-    setShowNextButton(true);
-    if (selectedOptions === correctOption) {
-      setScore(score + 1);
-    }
-  };
+      const correctOption = questions[currentQuestionIndex]?.correct_option;
+      setCorrectOptions(correctOption);
+      setIsOptionsDisabled(true);
+      setShowNextButton(true);
+      if (selectedOptions === correctOption) {
+        setScore(score + 1);
+      }
+    },
+    [currentQuestionIndex, score]
+  );
 
-  const onPressNext = () => {
+  const onPressNext = useCallback(() => {
     if (currentQuestionIndex === questions.length - 1) {
       setShowScore(true);
     } else {
@@ -42,9 +44,9 @@ export const HomeScreen = () => {
       setIsOptionsDisabled(false);
       setShowNextButton(false);
     }
-  };
+  }, [currentQuestionIndex]);
 
-  const onPressRetry = () => {
+  const onPressRetry = useCallback(() => {
     setShowScore(false);
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -53,24 +55,20 @@ export const HomeScreen = () => {
     setCorrectOptions(null);
     setIsOptionsDisabled(false);
     setShowNextButton(false);
-  };
+  }, []);
 
-  const answerOptions = (
-    <>
-      {questions[currentQuestionIndex]?.options.map((option) => {
-        return (
-          <AnswerOption
-            option={option}
-            key={option}
-            validateAnswer={validateAnswer}
-            correctOptions={correctOptions}
-            currentOptionsSelected={currentOptionsSelected}
-            isOptionsDisabled={isOptionsDisabled}
-          />
-        );
-      })}
-    </>
-  );
+  const answerOptions = questions[currentQuestionIndex]?.options.map((option) => {
+    return (
+      <AnswerOption
+        option={option}
+        key={option}
+        validateAnswer={validateAnswer}
+        correctOptions={correctOptions}
+        currentOptionsSelected={currentOptionsSelected}
+        isOptionsDisabled={isOptionsDisabled}
+      />
+    );
+  });
 
   return (
     <AppScreen>

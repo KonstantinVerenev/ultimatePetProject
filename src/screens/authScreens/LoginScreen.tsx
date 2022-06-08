@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, Image, SafeAreaView, StyleSheet, useWindowDimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -17,7 +17,7 @@ export const LoginScreen = () => {
   const [password, setPassword] = useState<string>('');
   const dispatch = useDispatch();
 
-  const onLoginInPressed = async () => {
+  const onLoginInPressed = useCallback(async () => {
     dispatch(setIsLoadingTrue());
 
     const firebaseAuth = await auth();
@@ -29,15 +29,15 @@ export const LoginScreen = () => {
         Alert.alert(error.message);
       }
     }
-  };
+  }, [dispatch, email, password]);
 
-  const onForgotPasswordPressed = () => {
+  const onForgotPasswordPressed = useCallback(() => {
     navigation.navigate('ForgotPasswordScreen');
-  };
+  }, [navigation]);
 
-  const onCreateAccountPressed = () => {
+  const onCreateAccountPressed = useCallback(() => {
     navigation.navigate('CreateAccountScreen');
-  };
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>

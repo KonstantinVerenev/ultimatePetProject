@@ -1,8 +1,8 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 
 import { StackParams } from '../../navigation';
@@ -19,7 +19,7 @@ export const CreateAccountScreen = () => {
   const [passwordRepeat, setPasswordRepeat] = useState<string>('');
   const dispatch = useDispatch();
 
-  const onRegisterPressed = async () => {
+  const onRegisterPressed = useCallback(async () => {
     dispatch(setIsLoadingTrue());
 
     if (password !== passwordRepeat) {
@@ -39,11 +39,11 @@ export const CreateAccountScreen = () => {
         Alert.alert(error.message);
       }
     }
-  };
+  }, [dispatch, email, password, passwordRepeat]);
 
-  const onLogInPressed = () => {
+  const onLogInPressed = useCallback(() => {
     navigation.navigate('LoginScreen');
-  };
+  }, [navigation]);
 
   const onTermsPressed = () => {
     console.warn('Terms of Use');
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '700',
-    color: COLORS.white,
+    color: COLORS.light.text,
     marginBottom: 20,
   },
   spacing: {
@@ -108,6 +108,6 @@ const styles = StyleSheet.create({
     width: '75%',
   },
   link: {
-    color: COLORS.blue,
+    color: COLORS.buttonBackground,
   },
 });

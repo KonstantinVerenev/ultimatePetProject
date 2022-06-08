@@ -52,12 +52,10 @@ export const AppNavigator = () => {
         }}
       >
         {isLoggedIn ? (
-          // Screens for logged in
           <Stack.Group screenOptions={{ headerShown: false }}>
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
           </Stack.Group>
         ) : (
-          // Authentication & Intro screens
           <Stack.Group screenOptions={{ headerShown: false }}>
             <Stack.Screen name="OnboadringScreen" component={OnboadringScreen} />
             <Stack.Screen name="StartScreen" component={StartScreen} />

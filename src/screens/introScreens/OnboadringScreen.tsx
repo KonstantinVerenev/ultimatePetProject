@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   SafeAreaView,
@@ -79,15 +79,15 @@ export const OnboadringScreen = () => {
     isFocused && ref?.current?.scrollToOffset({ offset: 0 });
   }, [isFocused]);
 
-  const scrollHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const scrollHandler = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const contentOffsetX = event.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffsetX / width);
 
     setCurrentSlideIndex(currentIndex);
-  };
+  }, []);
 
-  const onPressNext = () => {
+  const onPressNext = useCallback(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const nextSlideIndex = currentSlideIndex + 1;
     const offset = nextSlideIndex * width;
@@ -97,9 +97,9 @@ export const OnboadringScreen = () => {
     if (Platform.OS === 'android') {
       setCurrentSlideIndex(nextSlideIndex);
     }
-  };
+  }, [currentSlideIndex]);
 
-  const onPressSkip = () => {
+  const onPressSkip = useCallback(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const lastSlideIndex = slides.length - 1;
     const offset = lastSlideIndex * width;
@@ -109,11 +109,11 @@ export const OnboadringScreen = () => {
     if (Platform.OS === 'android') {
       setCurrentSlideIndex(lastSlideIndex);
     }
-  };
+  }, []);
 
-  const onPressFinish = () => {
+  const onPressFinish = useCallback(() => {
     navigation.navigate('StartScreen');
-  };
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
