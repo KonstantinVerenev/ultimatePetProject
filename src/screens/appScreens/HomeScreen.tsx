@@ -1,14 +1,17 @@
 import React, { useState, useCallback } from 'react';
+import auth from '@react-native-firebase/auth';
 
-import { TopBar } from '../../components/TopBar';
 import { questions } from '../../data/quizData';
-import { CustomButton } from '../../components/CustomButton';
-import { CustomModal } from '../../components/CustomModal';
-import { AnswersProgressBar } from '../../components/AnswersProgressBar';
-import { AnswerOption } from '../../components/AnswerOption';
-import { QuestionCounter } from '../../components/QuestionCounter';
-import { Question } from '../../components/Question';
-import { AppScreen } from '../../components/AppScreen';
+import {
+  AnswerOption,
+  AnswersProgressBar,
+  AppScreen,
+  CustomButton,
+  Question,
+  QuestionCounter,
+  ScoreModal,
+  TopBar,
+} from '../../components';
 
 export const HomeScreen = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -20,10 +23,10 @@ export const HomeScreen = () => {
   const [showScore, setShowScore] = useState(false);
 
   const validateAnswer = useCallback(
-    (selectedOptions: string): void => {
+    (selectedOptions: string) => {
       setCurrentOptionsSelected(selectedOptions);
 
-      const correctOption = questions[currentQuestionIndex]?.correct_option;
+      const correctOption = questions[currentQuestionIndex]?.correctOption;
       setCorrectOptions(correctOption);
       setIsOptionsDisabled(true);
       setShowNextButton(true);
@@ -57,13 +60,18 @@ export const HomeScreen = () => {
     setShowNextButton(false);
   }, []);
 
+  const onLogoutPress = useCallback(async () => {
+    const firebaseAuth = await auth();
+    await firebaseAuth.signOut();
+  }, []);
+
   const answerOptions = questions[currentQuestionIndex]?.options.map((option) => {
     return (
       <AnswerOption
         option={option}
         key={option}
         validateAnswer={validateAnswer}
-        correctOptions={correctOptions}
+        correctOption={correctOptions}
         currentOptionsSelected={currentOptionsSelected}
         isOptionsDisabled={isOptionsDisabled}
       />
@@ -72,7 +80,7 @@ export const HomeScreen = () => {
 
   return (
     <AppScreen>
-      <TopBar />
+      <TopBar onButtonPress={onLogoutPress} />
       <AnswersProgressBar
         questionLength={questions.length}
         currentQuestionIndex={currentQuestionIndex}
@@ -84,7 +92,7 @@ export const HomeScreen = () => {
       <Question questionText={questions[currentQuestionIndex]?.question} />
       {answerOptions}
       {showNextButton && <CustomButton onPress={onPressNext} text={'NEXT'} />}
-      <CustomModal
+      <ScoreModal
         showScore={showScore}
         score={score}
         questionLenght={questions.length}

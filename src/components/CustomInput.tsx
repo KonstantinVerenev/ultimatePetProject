@@ -1,44 +1,46 @@
-import React, { SetStateAction } from 'react';
+import React from 'react';
 import { View, TextInput, StyleSheet, Platform } from 'react-native';
+
+import { COLORS, THEME_COLORS } from '../constants';
 
 type CustomInputProps = {
   value: string;
-  setValue: React.Dispatch<SetStateAction<string>>;
+  onChangeText: (text: string) => void;
   placeholder: string;
   secureTextEntry?: boolean;
 };
 
+const isAndroid = Platform.OS === 'android';
+
 export const CustomInput: React.FC<CustomInputProps> = ({
   value,
-  setValue,
+  onChangeText,
   placeholder,
   secureTextEntry,
-}) => {
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        value={value}
-        onChangeText={setValue}
-        placeholder={placeholder}
-        secureTextEntry={secureTextEntry}
-      />
-    </View>
-  );
-};
+}) => (
+  <View style={styles.container}>
+    <TextInput
+      style={styles.input}
+      value={value}
+      onChangeText={onChangeText}
+      placeholder={placeholder}
+      secureTextEntry={secureTextEntry}
+    />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     width: '80%',
     maxWidth: 400,
-    borderColor: 'grey',
+    marginVertical: 5,
     borderWidth: 1,
     borderRadius: 5,
-    marginVertical: 5,
+    borderColor: COLORS.accent,
+    backgroundColor: THEME_COLORS.light.background,
   },
   input: {
-    paddingVertical: Platform.OS === 'android' ? 10 : 15,
+    paddingVertical: isAndroid ? 10 : 15,
     paddingHorizontal: 15,
   },
 });

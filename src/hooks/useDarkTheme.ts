@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../store';
+import { selectDarkTheme } from '../store/selectors';
 
 export const useDarkTheme = () => {
-  const darkTheme = useSelector((state: RootState) => state.app.darkTheme);
+  const darkTheme = useSelector(selectDarkTheme);
 
   return darkTheme;
 };

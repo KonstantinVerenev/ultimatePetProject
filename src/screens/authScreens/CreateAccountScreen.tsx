@@ -1,29 +1,31 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 
+import { COLORS, THEME_COLORS } from '../../constants';
 import { StackParams } from '../../navigation';
-import { setIsLoadingFalse, setIsLoadingTrue } from '../../store/appSlice';
+import { enableLoading, disableLoading } from '../../store/appSlice';
 import { setUser } from '../../store/userSlice';
-import { CustomInput } from '../../components/CustomInput';
-import { CustomButton } from '../../components/CustomButton';
-import { COLORS } from '../../constants';
+import { CustomButton, CustomInput } from '../../components';
+import { ButtonType } from '../../components/CustomButton';
+import { LOGIN_SCREEN } from '../../navigation/constants';
 
 export const CreateAccountScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [passwordRepeat, setPasswordRepeat] = useState<string>('');
   const dispatch = useDispatch();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordRepeat, setPasswordRepeat] = useState('');
+
   const onRegisterPressed = useCallback(async () => {
-    dispatch(setIsLoadingTrue());
+    dispatch(enableLoading());
 
     if (password !== passwordRepeat) {
-      dispatch(setIsLoadingFalse());
+      dispatch(disableLoading());
       Alert.alert('Passwords doesnt match!');
       return;
     }
@@ -35,14 +37,14 @@ export const CreateAccountScreen = () => {
       dispatch(setUser({ email: UserCredential.user.email, id: UserCredential.user.uid }));
     } catch (error) {
       if (error instanceof Error) {
-        dispatch(setIsLoadingFalse());
+        dispatch(disableLoading());
         Alert.alert(error.message);
       }
     }
   }, [dispatch, email, password, passwordRepeat]);
 
   const onLogInPressed = useCallback(() => {
-    navigation.navigate('LoginScreen');
+    navigation.navigate(LOGIN_SCREEN);
   }, [navigation]);
 
   const onTermsPressed = () => {
@@ -56,20 +58,20 @@ export const CreateAccountScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Create Account </Text>
-
-      <CustomInput value={email} setValue={setEmail} placeholder="Email" />
-      <View style={styles.spacing} />
-      <CustomInput value={password} setValue={setPassword} placeholder="Password" secureTextEntry />
+      <CustomInput value={email} onChangeText={setEmail} placeholder="Email" />
+      <CustomInput
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Password"
+        secureTextEntry
+      />
       <CustomInput
         value={passwordRepeat}
-        setValue={setPasswordRepeat}
+        onChangeText={setPasswordRepeat}
         placeholder="Password repeat"
         secureTextEntry
       />
-      <View style={styles.spacing} />
-
       <CustomButton onPress={onRegisterPressed} text={'Register'} />
-      <View style={styles.spacing} />
       <Text style={styles.text}>
         By registering, you confirm that you accept our{' '}
         <Text style={styles.link} onPress={onTermsPressed}>
@@ -79,10 +81,12 @@ export const CreateAccountScreen = () => {
         <Text style={styles.link} onPress={onPolicyPressed}>
           Privacy Policy
         </Text>
-        .
       </Text>
-      <View style={styles.spacing} />
-      <CustomButton onPress={onLogInPressed} text={`Have an account? Log in`} type={'SECONDARY'} />
+      <CustomButton
+        onPress={onLogInPressed}
+        text={`Have an account? Log in`}
+        type={ButtonType.secondary}
+      />
     </SafeAreaView>
   );
 };
@@ -92,17 +96,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'teal',
     padding: 10,
+    backgroundColor: COLORS.teal,
   },
   title: {
+    marginBottom: 20,
     fontSize: 24,
     fontWeight: '700',
-    color: COLORS.light.text,
-    marginBottom: 20,
-  },
-  spacing: {
-    height: 10,
+    color: THEME_COLORS.light.text,
   },
   text: {
     width: '75%',

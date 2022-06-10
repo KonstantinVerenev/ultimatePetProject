@@ -43,12 +43,12 @@ export const AnswersProgressBar: React.FC<AnswersProgressBarProps> = ({
 
 const styles = StyleSheet.create({
   barArea: {
+    height: 20,
     marginHorizontal: 10,
     marginTop: 25,
-    height: 20,
     borderRadius: 20,
-    backgroundColor: COLORS.accent,
     overflow: 'hidden',
+    backgroundColor: COLORS.accent,
   },
   barFill: {
     height: '100%',

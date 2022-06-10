@@ -1,32 +1,33 @@
-import { View, Text, Modal, StyleSheet } from 'react-native';
 import React from 'react';
-import { CustomButton } from './CustomButton';
-import { COLORS } from '../constants';
+import { View, Text, Modal, StyleSheet } from 'react-native';
 
-type CustomModalProps = {
+import { CustomButton } from './CustomButton';
+import { COLORS, THEME_COLORS } from '../constants';
+
+type ScoreModalProps = {
   showScore: boolean;
   score: number;
   questionLenght: number;
   onPressRetry: () => void;
 };
 
-export const CustomModal: React.FC<CustomModalProps> = ({
+export const ScoreModal: React.FC<ScoreModalProps> = ({
   showScore,
   score,
   questionLenght,
   onPressRetry,
 }) => {
+  const scorePoints = `${score} of ${questionLenght}`;
+  const scorePercentages = Math.floor((score / questionLenght) * 100);
+
   return (
     <Modal animationType="slide" transparent={true} visible={showScore}>
       <View style={styles.modalContainer}>
         <View style={styles.scoreMessage}>
           <Text style={styles.scoreMessageText}>
-            Your Score: {score}/{questionLenght}
+            Your Score:{'\n'}
+            {scorePoints} ({scorePercentages}%)
           </Text>
-          <Text style={styles.scoreMessageText}>
-            It&#39;s: {Math.floor((score / questionLenght) * 100)}%
-          </Text>
-
           <CustomButton onPress={onPressRetry} text={'Retry Quiz'} />
         </View>
       </View>
@@ -39,18 +40,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.dark.background,
+    backgroundColor: THEME_COLORS.dark.background,
   },
   scoreMessage: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
-    borderRadius: 20,
-    backgroundColor: COLORS.light.background,
+    paddingVertical: 30,
+    paddingHorizontal: 50,
+    borderRadius: 50,
+    backgroundColor: THEME_COLORS.light.background,
   },
   scoreMessageText: {
     marginVertical: 5,
     fontSize: 24,
-    color: 'black',
+    color: THEME_COLORS.light.text,
   },
 });

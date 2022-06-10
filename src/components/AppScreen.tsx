@@ -1,8 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { COLORS } from '../constants';
-import { useDarkTheme } from '../hooks/useDarkTheme';
 
+import { COLORS, THEME_COLORS } from '../constants';
+import { useDarkTheme } from '../hooks/useDarkTheme';
 import { BackgroundImage } from './BackgroundImage';
 
 type AppScreenProps = {
@@ -17,7 +17,7 @@ export const AppScreen: React.FC<AppScreenProps> = ({ children }) => {
       style={[
         {
           ...styles.container,
-          backgroundColor: darkTheme ? COLORS.dark.background : COLORS.light.background,
+          backgroundColor: darkTheme ? THEME_COLORS.dark.background : THEME_COLORS.light.background,
         },
       ]}
     >
@@ -31,6 +31,6 @@ export const AppScreen: React.FC<AppScreenProps> = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'tomato',
+    backgroundColor: COLORS.red,
   },
 });

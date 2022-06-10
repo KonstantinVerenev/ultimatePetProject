@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-import { COLORS } from '../constants';
+import { COLORS, THEME_COLORS } from '../constants';
 import { useDarkTheme } from '../hooks/useDarkTheme';
 
 type QuestionProps = {
@@ -13,7 +13,12 @@ export const Question: React.FC<QuestionProps> = ({ questionText }) => {
 
   return (
     <Text
-      style={[{ ...styles.questionText, color: darkTheme ? COLORS.dark.text : COLORS.light.text }]}
+      style={[
+        {
+          ...styles.questionText,
+          color: darkTheme ? THEME_COLORS.dark.text : THEME_COLORS.light.text,
+        },
+      ]}
     >
       {questionText}
     </Text>
@@ -22,10 +27,8 @@ export const Question: React.FC<QuestionProps> = ({ questionText }) => {
 
 const styles = StyleSheet.create({
   questionText: {
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 20,
-    marginRight: 20,
+    marginVertical: 10,
+    marginHorizontal: 20,
     fontSize: 26,
   },
 });

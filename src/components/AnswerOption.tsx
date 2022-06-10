@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-import { COLORS } from '../constants';
+import { COLORS, THEME_COLORS } from '../constants';
 import { useDarkTheme } from '../hooks/useDarkTheme';
 
 type AnswerOptionProps = {
   option: string;
   validateAnswer: (selectedOptions: string) => void;
-  correctOptions: string | null;
+  correctOption: string | null;
   currentOptionsSelected: string | null;
   isOptionsDisabled: boolean;
 };
@@ -15,42 +15,45 @@ type AnswerOptionProps = {
 export const AnswerOption: React.FC<AnswerOptionProps> = ({
   option,
   validateAnswer,
-  correctOptions,
+  correctOption: correctOptions,
   currentOptionsSelected,
   isOptionsDisabled,
 }) => {
   const darkTheme = useDarkTheme();
+  const isOptionCorrert = option === correctOptions;
+  const isOptionsSelected = option === currentOptionsSelected;
+
+  const onPressAnswer = useCallback(() => validateAnswer(option), [option, validateAnswer]);
 
   return (
     <TouchableOpacity
       style={[
         {
           ...styles.option,
-          borderColor:
-            option === correctOptions
-              ? 'green'
-              : option === currentOptionsSelected
-              ? 'red'
-              : '#8accf1',
+          borderColor: isOptionCorrert
+            ? COLORS.green
+            : isOptionsSelected
+            ? COLORS.red
+            : COLORS.buttonBackground,
         },
       ]}
       key={option}
-      onPress={() => validateAnswer(option)}
+      onPress={onPressAnswer}
       disabled={isOptionsDisabled}
     >
       <Text
         style={[
           {
             ...styles.optionText,
-            color: darkTheme ? COLORS.dark.text : COLORS.light.text,
+            color: darkTheme ? THEME_COLORS.dark.text : THEME_COLORS.light.text,
           },
         ]}
       >
         {option}
       </Text>
-      {option === correctOptions && <Text style={styles.correctAnswer}>Correct</Text>}
-      {option === currentOptionsSelected && option !== correctOptions && (
-        <Text style={styles.wrongAnswer}>Wrong</Text>
+      {isOptionCorrert && <Text style={[styles.answer, styles.correctAnswer]}>Correct</Text>}
+      {isOptionsSelected && !isOptionCorrert && (
+        <Text style={[styles.answer, styles.wrongAnswer]}>Wrong</Text>
       )}
     </TouchableOpacity>
   );
@@ -61,37 +64,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 5,
-    marginBottom: 5,
-    marginLeft: 20,
-    marginRight: 20,
-    borderWidth: 3,
-    borderColor: COLORS.buttonBackground,
-    borderRadius: 20,
+    marginVertical: 5,
+    marginHorizontal: 20,
     padding: 15,
+    borderWidth: 3,
+    borderRadius: 20,
+    borderColor: COLORS.buttonBackground,
     backgroundColor: COLORS.accent,
   },
   optionText: {
     fontSize: 20,
   },
-  wrongAnswer: {
+  answer: {
     padding: 2,
-    color: COLORS.light.text,
-    fontWeight: 'bold',
-    backgroundColor: COLORS.red,
+    overflow: 'hidden',
     borderRadius: 5,
     borderWidth: 1,
+    fontWeight: 'bold',
+    color: THEME_COLORS.light.text,
+  },
+  wrongAnswer: {
     borderColor: COLORS.red,
-    overflow: 'hidden',
+    backgroundColor: COLORS.red,
   },
   correctAnswer: {
-    padding: 2,
-    color: COLORS.light.text,
-    fontWeight: 'bold',
-    backgroundColor: COLORS.green,
-    borderRadius: 5,
-    borderWidth: 1,
     borderColor: COLORS.green,
-    overflow: 'hidden',
+    backgroundColor: COLORS.green,
   },
 });

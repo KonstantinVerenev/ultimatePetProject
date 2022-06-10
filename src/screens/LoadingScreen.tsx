@@ -1,10 +1,12 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+
+import { COLORS } from '../constants';
+import { selectIsLoading } from '../store/selectors';
 
 export const LoadingScreen: React.FC = () => {
-  const isLoading = useSelector((state: RootState) => state.app.isLoading);
+  const isLoading = useSelector(selectIsLoading);
 
   return isLoading ? (
     <View style={styles.loadingWrapper}>
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: COLORS.grey07,
   },
   loadingIndicator: {
     flex: 1,

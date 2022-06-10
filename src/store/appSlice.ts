@@ -7,17 +7,17 @@ type AppState = {
 
 const initialState: AppState = {
   isLoading: false,
-  darkTheme: false,
+  darkTheme: true,
 };
 
 const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setIsLoadingTrue(state) {
+    enableLoading(state) {
       state.isLoading = true;
     },
-    setIsLoadingFalse(state) {
+    disableLoading(state) {
       state.isLoading = false;
     },
     toggleTheme(state) {
@@ -26,6 +26,10 @@ const appSlice = createSlice({
   },
 });
 
-export const { setIsLoadingTrue, setIsLoadingFalse, toggleTheme } = appSlice.actions;
+export const {
+  enableLoading, // setIsLoadingTrue,
+  disableLoading, // setIsLoadingFalse,
+  toggleTheme,
+} = appSlice.actions;
 
 export default appSlice.reducer;

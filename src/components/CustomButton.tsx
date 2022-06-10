@@ -1,46 +1,52 @@
 import React from 'react';
-import { Text, StyleSheet, Pressable, ViewStyle } from 'react-native';
-import { COLORS } from '../constants';
+import { Text, StyleSheet, Pressable } from 'react-native';
+
+import { COLORS, THEME_COLORS } from '../constants';
 
 type CustomButtonType = {
   onPress: () => void;
   text: string;
-  type?: 'PRIMARY' | 'TERTIARY' | 'SECONDARY';
+  type?: ButtonType;
 };
 
-export const CustomButton: React.FC<CustomButtonType> = ({ onPress, text, type = 'PRIMARY' }) => {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.container, styles[`container_${type}`] as ViewStyle]}
-    >
-      <Text style={styles.text}>{text}</Text>
-    </Pressable>
-  );
-};
+export enum ButtonType {
+  primary = 'container_primary',
+  tertiary = 'container_tertiary',
+  secondary = 'container_secondary',
+}
+
+export const CustomButton: React.FC<CustomButtonType> = ({
+  onPress,
+  text,
+  type = ButtonType.primary,
+}) => (
+  <Pressable onPress={onPress} style={[styles.container, styles[type]]}>
+    <Text style={styles.text}>{text}</Text>
+  </Pressable>
+);
 
 const styles = StyleSheet.create({
   container: {
-    width: '80%',
-    maxWidth: 400,
-    padding: 15,
-    borderRadius: 5,
-    marginVertical: 10,
     alignSelf: 'center',
     alignItems: 'center',
+    width: '80%',
+    maxWidth: 400,
+    marginVertical: 10,
+    padding: 15,
+    borderRadius: 5,
   },
-  container_PRIMARY: {
+  container_primary: {
     backgroundColor: COLORS.buttonBackground,
   },
-  container_TERTIARY: {
-    backgroundColor: 'transparent',
+  container_tertiary: {
+    backgroundColor: COLORS.transparent,
   },
-  container_SECONDARY: {
-    borderColor: COLORS.buttonBackground,
+  container_secondary: {
     borderWidth: 1,
+    borderColor: COLORS.buttonBackground,
   },
   text: {
     fontWeight: '700',
-    color: 'black',
+    color: THEME_COLORS.light.text,
   },
 });

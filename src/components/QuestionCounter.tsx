@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-import { COLORS } from '../constants';
+import { COLORS, THEME_COLORS } from '../constants';
 import { useDarkTheme } from '../hooks/useDarkTheme';
 
 type QuestionCounterProps = {
@@ -15,11 +15,18 @@ export const QuestionCounter: React.FC<QuestionCounterProps> = ({
 }) => {
   const darkTheme = useDarkTheme();
 
+  const counterValue = `${currentQuestionIndex + 1}/${numberOfQuestions}`;
+
   return (
     <Text
-      style={[{ ...styles.counterText, color: darkTheme ? COLORS.dark.text : COLORS.light.text }]}
+      style={[
+        {
+          ...styles.counterText,
+          color: darkTheme ? THEME_COLORS.dark.text : THEME_COLORS.light.text,
+        },
+      ]}
     >
-      {currentQuestionIndex + 1} / {numberOfQuestions}
+      {counterValue}
     </Text>
   );
 };
@@ -27,8 +34,7 @@ export const QuestionCounter: React.FC<QuestionCounterProps> = ({
 const styles = StyleSheet.create({
   counterText: {
     marginTop: 10,
-    marginLeft: 20,
-    marginRight: 20,
+    marginHorizontal: 20,
     fontSize: 30,
   },
 });

@@ -19,8 +19,9 @@ import {
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { COLORS } from '../../constants';
+import { COLORS, THEME_COLORS } from '../../constants';
 import { StackParams } from '../../navigation';
+import { START_SCREEN } from '../../navigation/constants';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -60,7 +61,9 @@ const OnboardingSlide: ListRenderItem<SlideItemData> = ({ item: { image, title, 
   return (
     <View style={styles.slide}>
       <Image source={image} style={styles.slideImage} />
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title} numberOfLines={2}>
+        {title}
+      </Text>
       <Text style={styles.subtitle} numberOfLines={2}>
         {subtitle}
       </Text>
@@ -112,7 +115,7 @@ export const OnboadringScreen = () => {
   }, []);
 
   const onPressFinish = useCallback(() => {
-    navigation.navigate('StartScreen');
+    navigation.navigate(START_SCREEN);
   }, [navigation]);
 
   return (
@@ -123,12 +126,10 @@ export const OnboadringScreen = () => {
         onMomentumScrollEnd={scrollHandler}
         horizontal
         pagingEnabled
-        style={{ flexGrow: 2 }}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         renderItem={OnboardingSlide}
       />
-
       <View style={styles.indicatorsWrapper}>
         {slides.map((item, index) => (
           <View
@@ -137,18 +138,17 @@ export const OnboadringScreen = () => {
           />
         ))}
       </View>
-
       <View style={styles.buttonsWrapper}>
         {currentSlideIndex === slides.length - 1 ? (
-          <TouchableOpacity style={[styles.button, { width: 320 }]} onPress={onPressFinish}>
+          <TouchableOpacity style={[styles.button]} onPress={onPressFinish}>
             <Text style={styles.buttonText}>FINISH</Text>
           </TouchableOpacity>
         ) : (
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={styles.buttonsInnerWrapper}>
             <TouchableOpacity onPress={onPressSkip} style={[styles.button, styles.darkButton]}>
-              <Text style={[styles.buttonText, { color: COLORS.dark.text }]}>SKIP</Text>
+              <Text style={[styles.buttonText, { color: THEME_COLORS.dark.text }]}>SKIP</Text>
             </TouchableOpacity>
-            <View style={{ width: 20 }} />
+            <View style={styles.spacing} />
             <TouchableOpacity style={styles.button} onPress={onPressNext}>
               <Text style={styles.buttonText}>NEXT</Text>
             </TouchableOpacity>
@@ -164,13 +164,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.dark.background,
+    backgroundColor: THEME_COLORS.dark.background,
   },
   slide: {
-    width: width,
-    padding: 10,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    width: width,
+    height: '100%',
+    padding: 10,
   },
   slideImage: {
     width: '80%',
@@ -178,51 +180,58 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    color: COLORS.dark.text,
+    marginTop: 10,
+    textAlign: 'center',
     fontSize: 24,
     fontWeight: '700',
-    textAlign: 'center',
-    marginTop: 10,
+    color: THEME_COLORS.dark.text,
   },
   subtitle: {
-    color: COLORS.dark.text,
-    fontSize: 20,
     marginTop: 10,
+    fontSize: 20,
+    color: THEME_COLORS.dark.text,
   },
   indicatorsWrapper: {
-    flex: 1,
     flexDirection: 'row',
+    paddingVertical: 40,
   },
   indicator: {
     height: 15,
     width: 20,
-    backgroundColor: 'grey',
     marginHorizontal: 5,
     borderRadius: 10,
+    backgroundColor: COLORS.accent,
   },
   activeIndicator: {
-    backgroundColor: COLORS.dark.text,
     width: 30,
+    backgroundColor: THEME_COLORS.dark.text,
   },
   buttonsWrapper: {
-    flex: 2,
     justifyContent: 'center',
+    paddingVertical: 40,
+  },
+  buttonsInnerWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
     width: 150,
-    backgroundColor: COLORS.dark.text,
     borderRadius: 5,
+    backgroundColor: THEME_COLORS.dark.text,
   },
   darkButton: {
-    backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: COLORS.dark.text,
+    borderColor: THEME_COLORS.dark.text,
+    backgroundColor: COLORS.transparent,
   },
   buttonText: {
     fontWeight: '700',
-    color: 'black',
+    color: THEME_COLORS.light.text,
+  },
+  spacing: {
+    width: 20,
   },
 });

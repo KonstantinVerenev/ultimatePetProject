@@ -1,94 +1,76 @@
-import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import auth from '@react-native-firebase/auth';
 
-import { COLORS } from '../constants';
-import { RootState } from '../store';
+import { COLORS, THEME_COLORS } from '../constants';
 import { toggleTheme } from '../store/appSlice';
 import { useDarkTheme } from '../hooks/useDarkTheme';
+import { selectEmail } from '../store/selectors';
 
-export const TopBar = () => {
+type TopBarProps = {
+  onButtonPress: () => void;
+};
+
+export const TopBar: React.FC<TopBarProps> = ({ onButtonPress }) => {
   const isDarkTheme = useDarkTheme();
   const dispatch = useDispatch();
-  const email = useSelector((state: RootState) => state.user.email);
-
-  const onLogoutPress = async () => {
-    const firebaseAuth = await auth();
-    await firebaseAuth.signOut();
-  };
+  const email = useSelector(selectEmail);
 
   const toggleAppTheme = () => {
     dispatch(toggleTheme());
   };
 
-  const textColor = isDarkTheme ? COLORS.dark.text : COLORS.light.text;
+  const textColor = isDarkTheme ? THEME_COLORS.dark.text : THEME_COLORS.light.text;
 
   return (
-    <>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: textColor }}>Dark mode: </Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={isDarkTheme ? 'teal' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            value={isDarkTheme}
-            onValueChange={toggleAppTheme}
-          />
-        </View>
-
-        <View>
-          <Text
-            style={{
-              color: textColor,
-              padding: 5,
-              alignSelf: 'center',
-            }}
-          >
-            Current User:
-          </Text>
-          <Text
-            style={{
-              color: textColor,
-              padding: 5,
-              alignSelf: 'center',
-            }}
-          >
-            {email}
-          </Text>
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={onLogoutPress}>
-          <Text style={styles.buttonText}>Log Out</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.wrapper}>
+        <Text style={{ color: textColor }}>Dark mode: </Text>
+        <Switch
+          trackColor={{ false: THEME_COLORS.dark.background, true: COLORS.buttonBackground }}
+          thumbColor={isDarkTheme ? THEME_COLORS.dark.background : THEME_COLORS.light.background}
+          ios_backgroundColor={COLORS.accent}
+          value={isDarkTheme}
+          onValueChange={toggleAppTheme}
+        />
       </View>
-    </>
+      <View>
+        <Text style={[styles.email, { color: textColor }]}>
+          Current User:{'\n'}
+          {email}
+        </Text>
+      </View>
+      <TouchableOpacity style={styles.button} onPress={onButtonPress}>
+        <Text style={styles.buttonText}>Log Out</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+  },
+  wrapper: {
+    alignItems: 'center',
+  },
+  email: {
+    alignSelf: 'center',
+    padding: 5,
+  },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 30,
     width: 100,
-    backgroundColor: COLORS.buttonBackground,
     borderRadius: 5,
-  },
-  darkButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: COLORS.dark.text,
+    backgroundColor: COLORS.buttonBackground,
   },
   buttonText: {
+    color: THEME_COLORS.light.text,
     fontWeight: '700',
   },
 });
